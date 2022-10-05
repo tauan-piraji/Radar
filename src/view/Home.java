@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
@@ -25,7 +26,11 @@ public class Home extends JFrame {
     private JLabel tituloRastreamento;
     private JPanel pDistanciaMinAero;
     private JPanel pDistanciaMinAvioes;
-    private JPanel pTempoMInEmRotaColisao;
+    private JPanel pTempoMinEmRotaColisao;
+    private JLabel pTempoMinEmRotaColisaoLabel;
+    private JTextField pTempoMinEmRotaColisaoText;
+
+    private JButton pTempoMinEmRotaColisaoButton;
 
     //DataGrid
     private JLabel tituloDataGrid;
@@ -108,26 +113,48 @@ public class Home extends JFrame {
         tituloRastreamento.setBounds(56, 580, 300,24);
         getContentPane().add(tituloRastreamento);
 
-        //Painel distancia min aeroporto
+        //1 - Painel distancia min aeroporto
         pDistanciaMinAero = new JPanel();
-        pDistanciaMinAero.setBounds(36, 610, 330, 120);
+        pDistanciaMinAero.setBounds(36, 610, 330, 130);
         pDistanciaMinAero.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         getContentPane().add(pDistanciaMinAero);
 
-        //Painel distancia min avioes
+        //2 - Painel distancia min avioes
         pDistanciaMinAvioes = new JPanel();
-        pDistanciaMinAvioes.setBounds(380, 610, 160, 120);
+        pDistanciaMinAvioes.setBounds(380, 610, 180, 130);
         pDistanciaMinAvioes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         getContentPane().add(pDistanciaMinAvioes);
 
-        //Painel tempo min em rota de colisão
-        pTempoMInEmRotaColisao = new JPanel();
-        pTempoMInEmRotaColisao.setBounds(590, 610, 160, 120);
-        pTempoMInEmRotaColisao.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTempoMInEmRotaColisao);
+        //3 - Painel tempo min em rota de colisão
+        pTempoMinEmRotaColisao = new JPanel();
+        pTempoMinEmRotaColisao.setBounds(590, 610, 180, 130);
+        pTempoMinEmRotaColisao.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        //3.1 - descrição input
+        pTempoMinEmRotaColisaoLabel = new JLabel("Tempo mín:");
+        pTempoMinEmRotaColisaoLabel.setBounds(595, 580, 150, 120);
+        getContentPane().add(pTempoMinEmRotaColisaoLabel);
+
+        //3.2 - input
+        pTempoMinEmRotaColisaoText = new JTextField();
+        pTempoMinEmRotaColisaoText.setBounds(730, 625, 35, 35);
+        getContentPane().add(pTempoMinEmRotaColisaoText);
+
+        //3.3 - Button
+        pTempoMinEmRotaColisaoButton = new JButton("Em rota de colisão");
+        pTempoMinEmRotaColisaoButton.setBounds(595, 670, 170, 41);
+        pTempoMinEmRotaColisaoButton.setBackground(Color.red);
+        pTempoMinEmRotaColisaoButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        getContentPane().add(pTempoMinEmRotaColisaoButton);
 
 
-
+        getContentPane().add(pTempoMinEmRotaColisao);
 
         //DATAGRID
 
