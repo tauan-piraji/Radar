@@ -12,6 +12,24 @@ public class Home extends JFrame {
     private JLabel tituloDados;
     private JPanel pDados;
 
+    private JLabel pDadosX;
+    private JTextArea pDadosXText;
+
+    private JLabel pDadosY;
+    private JTextArea pDadosYText;
+
+    private JLabel pDadosRaio;
+    private JTextArea pDadosRaioText;
+
+    private JLabel pDadosAngulo;
+    private JTextArea pDadosAnguloText;
+
+    private JLabel pDadosVelocidade;
+    private JTextArea pDadosVelocidadeText;
+
+    private JLabel pDadosDirecao;
+    private JTextArea pDadosDirecaoText;
+
     //funções de transformação
     private JLabel tituloTransformacao;
     private JPanel pTransformacaoTranslader;
@@ -24,12 +42,20 @@ public class Home extends JFrame {
 
     //funções de Rastreamento
     private JLabel tituloRastreamento;
-    private JPanel pDistanciaMinAero;
+    private JPanel pDistanciaMinAeroporto;
+    private JLabel pDistanciaMinAeroportoLabel;
+    private JTextField pDistanciaMinAeroportoText;
+    private JButton pDistanciaMinAeroportoButton;
+
+
+
     private JPanel pDistanciaMinAvioes;
+    private JLabel pDistanciaMinAvioesLabel;
+    private JTextField pDistanciaMinAvioesText;
+    private JButton pDistanciaMinAvioesButton;
     private JPanel pTempoMinEmRotaColisao;
     private JLabel pTempoMinEmRotaColisaoLabel;
     private JTextField pTempoMinEmRotaColisaoText;
-
     private JButton pTempoMinEmRotaColisaoButton;
 
     //DataGrid
@@ -66,6 +92,25 @@ public class Home extends JFrame {
         pDados = new JPanel();
         pDados.setBounds(36, 43, 330, 250);
         pDados.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        pDadosX = new JLabel("X:");
+        pDadosX.setBounds(66, 73, 30, 30);
+        getContentPane().add(pDadosX);
+
+        pDadosXText = new JTextArea();
+        pDadosXText.setBounds(96, 73, 30, 30);
+        pDadosXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(pDadosXText);
+
+        pDadosY = new JLabel("Y:");
+        pDadosY.setBounds(196, 73, 30, 30);
+        getContentPane().add(pDadosY);
+
+        pDadosYText = new JTextArea();
+        pDadosYText.setBounds(226, 73, 30, 30);
+        pDadosYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(pDadosYText);
+
         getContentPane().add(pDados);
 
         //FUNÇÔES DE TRANSFORMAÇÂO
@@ -114,15 +159,61 @@ public class Home extends JFrame {
         getContentPane().add(tituloRastreamento);
 
         //1 - Painel distancia min aeroporto
-        pDistanciaMinAero = new JPanel();
-        pDistanciaMinAero.setBounds(36, 610, 330, 130);
-        pDistanciaMinAero.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDistanciaMinAero);
+        pDistanciaMinAeroporto = new JPanel();
+        pDistanciaMinAeroporto.setBounds(36, 610, 330, 130);
+        pDistanciaMinAeroporto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        //1.1 descrição input
+        pDistanciaMinAeroportoLabel = new JLabel("Distância mínima:");
+        pDistanciaMinAeroportoLabel.setBounds(46, 580, 200, 120);
+        getContentPane().add(pDistanciaMinAeroportoLabel);
+
+        //2.2 - input
+        pDistanciaMinAeroportoText = new JTextField();
+        pDistanciaMinAeroportoText.setBounds(250, 625, 35, 35);
+        getContentPane().add(pDistanciaMinAeroportoText);
+
+        //3.3 - Button
+        pDistanciaMinAeroportoButton = new JButton("Aviões próximos ao Aeroporto");
+        pDistanciaMinAeroportoButton.setBounds(46, 670, 250, 41);
+        pDistanciaMinAeroportoButton.setBackground(Color.red);
+        pDistanciaMinAeroportoButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        getContentPane().add(pDistanciaMinAeroportoButton);
+
+        getContentPane().add(pDistanciaMinAeroporto);
         //2 - Painel distancia min avioes
         pDistanciaMinAvioes = new JPanel();
-        pDistanciaMinAvioes.setBounds(380, 610, 180, 130);
+        pDistanciaMinAvioes.setBounds(380, 610, 190, 130);
         pDistanciaMinAvioes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        //2.1 - descrição input
+        pDistanciaMinAvioesLabel = new JLabel("Distância mín:");
+        pDistanciaMinAvioesLabel.setBounds(380, 580, 150, 120);
+        getContentPane().add(pDistanciaMinAvioesLabel);
+
+        //2.2 - input
+        pDistanciaMinAvioesText = new JTextField();
+        pDistanciaMinAvioesText.setBounds(530, 625, 35, 35);
+        getContentPane().add(pDistanciaMinAvioesText);
+
+        //3.3 - Button
+        pDistanciaMinAvioesButton = new JButton("Aviões próximos");
+        pDistanciaMinAvioesButton.setBounds(390, 670, 170, 41);
+        pDistanciaMinAvioesButton.setBackground(Color.red);
+        pDistanciaMinAvioesButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        getContentPane().add(pDistanciaMinAvioesButton);
         getContentPane().add(pDistanciaMinAvioes);
 
         //3 - Painel tempo min em rota de colisão
@@ -152,8 +243,6 @@ public class Home extends JFrame {
         });
 
         getContentPane().add(pTempoMinEmRotaColisaoButton);
-
-
         getContentPane().add(pTempoMinEmRotaColisao);
 
         //DATAGRID
