@@ -1,10 +1,17 @@
 package view;
 
+import util.calculos.CordenadasRadar;
+import util.rotacionaImg.RotacionaAviao;
+import doMain.Airplane;
+import doMain.Radar;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Objects;
 
 public class Home extends JFrame {
 
@@ -63,6 +70,8 @@ public class Home extends JFrame {
     private JLabel tituloRadar;
     private JPanel pRadar;
     private JLabel planoCartesiano;
+    //DoisPontosMedia
+    private JLabel doisPontosMedia;
 
     //funções de Rastreamento
     private JLabel tituloRastreamento;
@@ -104,6 +113,8 @@ public class Home extends JFrame {
     public void inicializa() {
         fonte = new Font("Arial", Font.PLAIN, 20);
         UIManager.put("Label.font", fonte);
+
+        Radar radar = new Radar();
 
         ///////////////////////////ENTRADA DE DADOS/////////////////////////////
 
@@ -190,13 +201,59 @@ public class Home extends JFrame {
         pDadosButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Airplane airPlane = new Airplane();
+                JLabel imgAviao = new JLabel();
 
+                if(pDadosRaioText.getText().isEmpty() && pDadosAnguloText.getText().isEmpty()) {
+                    imgAviao.setVisible(true);
+                    imgAviao.setLocation(CordenadasRadar.cordenadaX(Integer.parseInt(pDadosXText.getText())),
+                            CordenadasRadar.cordenadaY(Integer.parseInt(pDadosYText.getText())));
+
+                    try{
+                        imgAviao.setIcon(
+                                new ImageIcon(
+                                        RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
+                                                Integer.parseInt(pDadosDirecaoText.getText()))));
+                    }catch (Exception ex){
+                        System.out.println(ex.getMessage());
+                    }
+                    imgAviao.setSize(30,30);
+
+                    airPlane.setX(Float.parseFloat(pDadosXText.getText()));
+                    airPlane.setY(Float.parseFloat(pDadosYText.getText()));
+                    airPlane.setVelocidade(Float.parseFloat(pDadosVelocidadeText.getText()));
+                    airPlane.setDirecao(Float.parseFloat(pDadosDirecaoText.getText()));
+                    airPlane.setImgAirplane(imgAviao);
+
+                } else {
+                    imgAviao.setVisible(true);
+                    imgAviao.setLocation(CordenadasRadar.polarX(Integer.parseInt(pDadosRaioText.getText()), Integer.parseInt(pDadosAnguloText.getText())),
+                            CordenadasRadar.polarY(Integer.parseInt(pDadosRaioText.getText()), Integer.parseInt(pDadosAnguloText.getText())));
+
+                    try{
+                        imgAviao.setIcon(
+                                new ImageIcon(
+                                        RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
+                                                Integer.parseInt(pDadosDirecaoText.getText()))));
+                    }catch (Exception ex){
+                        System.out.println(ex+" aqui");
+                    }
+                    imgAviao.setSize(30,30);
+
+                    airPlane.setRaio(Float.parseFloat(pDadosRaioText.getText()));
+                    airPlane.setAngulo(Float.parseFloat(pDadosAnguloText.getText()));
+                    airPlane.setVelocidade(Float.parseFloat(pDadosVelocidadeText.getText()));
+                    airPlane.setDirecao(Float.parseFloat(pDadosDirecaoText.getText()));
+                    airPlane.setImgAirplane(imgAviao);
+                }
+
+                radar.setLista_avioes(airPlane.getId(), airPlane);
+                pRadar.add(imgAviao);
+                pRadar.updateUI();
             }
         });
 
         getContentPane().add(pDadosButton);
-
-
         getContentPane().add(pDados);
 
         ////////////////////////FUNÇÔES DE TRANSFORMAÇÂO///////////////////////////
@@ -355,22 +412,30 @@ public class Home extends JFrame {
 
         //Painel Radar
         pRadar = new JPanel();
+        pRadar.setLayout(null);
         pRadar.setBounds(400, 43, 400, 400);
         pRadar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pRadar);
-
-        ImageIcon img = new ImageIcon("Util\\proff.png");
-
 
         planoCartesiano = new JLabel();
+        planoCartesiano.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/img/planoCartesiano.png"))));
+        planoCartesiano.setLocation(0,0);
+        planoCartesiano.setSize(400,400);
+
+        pRadar.add(planoCartesiano);
+        pRadar.updateUI();
+        getContentPane().add(pRadar);
+
+        ////////////////////DOIS PONTOS NA MEDIA/////////////////////////////////////////
+
+        doisPontosMedia = new JLabel();
         try{
-            planoCartesiano.setIcon(new ImageIcon(".\\Util\\proff.png"));
+            doisPontosMedia.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/img/proff.png"))));
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        planoCartesiano.setLocation(400,470);
-        planoCartesiano.setSize(400,120);
-        getContentPane().add(planoCartesiano);
+        doisPontosMedia.setLocation(410,460);
+        doisPontosMedia.setSize(400,120);
+        getContentPane().add(doisPontosMedia);
 
         /////////////////////////FUNÇÔES DE RASTREAMENTO/////////////////////////
 

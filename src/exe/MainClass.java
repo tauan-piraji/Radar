@@ -1,4 +1,4 @@
-package doMain;
+package exe;
 
 import view.Home;
 
