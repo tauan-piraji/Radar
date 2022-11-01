@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class Airplane {
 
+    private Boolean checkBox;
     private Integer id;
     private float x;
     private float y;
@@ -12,6 +13,14 @@ public class Airplane {
     private float velocidade;
     private float direcao;
     private JLabel imgAirplane;
+
+    public Boolean isCheckBoxSelected() {
+        return checkBox;
+    }
+
+    public void setCheckBox(Boolean checkBox) {
+        this.checkBox = checkBox;
+    }
 
     public Integer getId() {
         return id;

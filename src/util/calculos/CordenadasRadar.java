@@ -1,10 +1,6 @@
 package util.calculos;
 
 public class CordenadasRadar {
-    private int x;
-    private int y;
-    private float raio;
-    private int angulo;
 
     public static int cordenadaX(int x) {
         return x+200-(20/2);

@@ -1,16 +1,16 @@
 package view;
 
-import util.calculos.CordenadasRadar;
-import util.rotacionaImg.RotacionaAviao;
+import doMain.AirPlaneTableModel;
 import doMain.Airplane;
 import doMain.Radar;
+import util.calculos.CordenadasRadar;
+import util.rotacionaImg.RotacionaAviao;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Objects;
 
 public class Home extends JFrame {
@@ -21,41 +21,41 @@ public class Home extends JFrame {
     private JLabel tituloDados;
     private JPanel pDados;
 
-    private JLabel pDadosX;
-    private JTextArea pDadosXText;
+    private JLabel lDadosX;
+    private JTextArea tDadosXText;
 
-    private JLabel pDadosY;
-    private JTextArea pDadosYText;
+    private JLabel lDadosY;
+    private JTextArea tDadosYText;
 
-    private JLabel pDadosRaio;
-    private JTextArea pDadosRaioText;
+    private JLabel lDadosRaio;
+    private JTextArea tDadosRaioText;
 
-    private JLabel pDadosAngulo;
-    private JTextArea pDadosAnguloText;
+    private JLabel lDadosAngulo;
+    private JTextArea tDadosAnguloText;
 
-    private JLabel pDadosVelocidade;
-    private JTextArea pDadosVelocidadeText;
+    private JLabel lDadosVelocidade;
+    private JTextArea tDadosVelocidadeText;
 
-    private JLabel pDadosDirecao;
-    private JTextArea pDadosDirecaoText;
-    private JButton pDadosButton;
+    private JLabel lDadosDirecao;
+    private JTextArea tDadosDirecaoText;
+    private JButton bDadosButton;
 
     //funções de transformação
     private JLabel tituloTransformacao;
     private JPanel pTransformacaoTranslader;
-    private JLabel pTransformacaoTransladerX;
-    private JTextArea pTransformacaoTransladerXText;
-    private JLabel pTransformacaoTransladerY;
-    private JTextArea pTransformacaoTransladerYText;
-    private JButton pTransformacaoTransladerButton;
+    private JLabel lTransformacaoTransladerX;
+    private JTextArea tTransformacaoTransladerXText;
+    private JLabel lTransformacaoTransladerY;
+    private JTextArea tTransformacaoTransladerYText;
+    private JButton bTransformacaoTransladerButton;
     private JPanel pTransformacaoEscalonar;
-    private JLabel pTransformacaoEscalonarX;
-    private JTextArea pTransformacaoEscalonarXText;
-    private JLabel pTransformacaoEscalonarY;
-    private JTextArea pTransformacaoEscalonarYText;
-    private JButton pTransformacaoEscalonarButton;
+    private JLabel lTransformacaoEscalonarX;
+    private JTextArea tTransformacaoEscalonarXText;
+    private JLabel lTransformacaoEscalonarY;
+    private JTextArea tTransformacaoEscalonarYText;
+    private JButton bTransformacaoEscalonarButton;
     private JPanel pTransformacaoRotacionar;
-    private JLabel pTransformacaoRotacionarAngulo;
+    private JLabel lTransformacaoRotacionarAngulo;
     private JTextArea pTransformacaoRotacionarAnguloText;
     private JLabel pTransformacaoRotacionarCentroDeRotacao;
 
@@ -92,8 +92,10 @@ public class Home extends JFrame {
     private JButton pTempoMinEmRotaColisaoButton;
 
     //DataGrid
+    AirPlaneTableModel airPlaneTableModel = new AirPlaneTableModel();
     private JLabel tituloDataGrid;
-    private JPanel pDataGrid;
+    private JTable tDataGrid;
+    private JScrollPane sDataGridSP;
 
     //Radarelatorio
     private JLabel tituloRadarelatorio;
@@ -116,6 +118,52 @@ public class Home extends JFrame {
 
         Radar radar = new Radar();
 
+        /////////////////////////////DATAGRID//////////////////////////////////////////////
+
+        //Titulo
+        tituloDataGrid = new JLabel("DataGrid");
+        tituloDataGrid.setBounds(970, 12, 180, 24);
+        getContentPane().add(tituloDataGrid);
+
+        //Painel DataGrid
+        tDataGrid = new JTable(airPlaneTableModel);
+        tDataGrid.setBounds(820, 43, 400, 300);
+        tDataGrid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tDataGrid.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
+                        if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
+                            Integer id = Integer.parseInt(airPlaneTableModel.getValueAt(i, 1).toString());
+                            radar.remove(id);
+
+                            airPlaneTableModel.removeAviao(i);
+                        }
+                    }
+                }
+                radar.updateUI();
+                tDataGrid.updateUI();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        tDataGrid.setModel(airPlaneTableModel);
+        airPlaneTableModel.addCheckBox(0, tDataGrid);
+        sDataGridSP = new JScrollPane();
+        sDataGridSP.setViewportView(tDataGrid);
+        sDataGridSP.setBounds(820, 43, 400, 300);
+        getContentPane().add(sDataGridSP);
+
+
         ///////////////////////////ENTRADA DE DADOS/////////////////////////////
 
         //Titulo
@@ -129,131 +177,133 @@ public class Home extends JFrame {
         pDados.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição X
-        pDadosX = new JLabel("X:");
-        pDadosX.setBounds(144, 73, 30, 30);
-        getContentPane().add(pDadosX);
+        lDadosX = new JLabel("X:");
+        lDadosX.setBounds(144, 73, 30, 30);
+        getContentPane().add(lDadosX);
 
         //input X
-        pDadosXText = new JTextArea();
-        pDadosXText.setBounds(170, 73, 30, 30);
-        pDadosXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosXText);
+        tDadosXText = new JTextArea();
+        tDadosXText.setBounds(170, 73, 30, 30);
+        tDadosXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosXText);
 
         //descrição Y
-        pDadosY = new JLabel("Y:");
-        pDadosY.setBounds(270, 73, 30, 30);
-        getContentPane().add(pDadosY);
+        lDadosY = new JLabel("Y:");
+        lDadosY.setBounds(270, 73, 30, 30);
+        getContentPane().add(lDadosY);
 
         //input Y
-        pDadosYText = new JTextArea();
-        pDadosYText.setBounds(310, 73, 30, 30);
-        pDadosYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosYText);
+        tDadosYText = new JTextArea();
+        tDadosYText.setBounds(310, 73, 30, 30);
+        tDadosYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosYText);
 
         //descrição Raio
-        pDadosRaio = new JLabel("Raio:");
-        pDadosRaio.setBounds(114, 113, 70, 30);
-        getContentPane().add(pDadosRaio);
+        lDadosRaio = new JLabel("Raio:");
+        lDadosRaio.setBounds(114, 113, 70, 30);
+        getContentPane().add(lDadosRaio);
 
         //input Raio
-        pDadosRaioText = new JTextArea();
-        pDadosRaioText.setBounds(170, 113, 30, 30);
-        pDadosRaioText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosRaioText);
+        tDadosRaioText = new JTextArea();
+        tDadosRaioText.setBounds(170, 113, 30, 30);
+        tDadosRaioText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosRaioText);
 
         //descrição Angulo
-        pDadosAngulo = new JLabel("Ângulo:");
-        pDadosAngulo.setBounds(210, 113, 100, 30);
-        getContentPane().add(pDadosAngulo);
+        lDadosAngulo = new JLabel("Ângulo:");
+        lDadosAngulo.setBounds(210, 113, 100, 30);
+        getContentPane().add(lDadosAngulo);
 
         //input Angulo
-        pDadosAnguloText = new JTextArea();
-        pDadosAnguloText.setBounds(310, 113, 30, 30);
-        pDadosAnguloText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosAnguloText);
+        tDadosAnguloText = new JTextArea();
+        tDadosAnguloText.setBounds(310, 113, 30, 30);
+        tDadosAnguloText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosAnguloText);
 
         //descrição Velocidade
-        pDadosVelocidade = new JLabel("Velocidade:");
-        pDadosVelocidade.setBounds(48, 153, 130, 30);
-        getContentPane().add(pDadosVelocidade);
+        lDadosVelocidade = new JLabel("Velocidade:");
+        lDadosVelocidade.setBounds(48, 153, 130, 30);
+        getContentPane().add(lDadosVelocidade);
 
         //input Velocidade
-        pDadosVelocidadeText = new JTextArea();
-        pDadosVelocidadeText.setBounds(170, 153, 30, 30);
-        pDadosVelocidadeText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosVelocidadeText);
+        tDadosVelocidadeText = new JTextArea();
+        tDadosVelocidadeText.setBounds(170, 153, 30, 30);
+        tDadosVelocidadeText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosVelocidadeText);
 
         //descrição Direção
-        pDadosDirecao = new JLabel("Direção:");
-        pDadosDirecao.setBounds(210, 153, 100, 30);
-        getContentPane().add(pDadosDirecao);
+        lDadosDirecao = new JLabel("Direção:");
+        lDadosDirecao.setBounds(210, 153, 100, 30);
+        getContentPane().add(lDadosDirecao);
 
         //input Direção
-        pDadosDirecaoText = new JTextArea();
-        pDadosDirecaoText.setBounds(310, 153, 30, 30);
-        pDadosDirecaoText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDadosDirecaoText);
+        tDadosDirecaoText = new JTextArea();
+        tDadosDirecaoText.setBounds(310, 153, 30, 30);
+        tDadosDirecaoText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tDadosDirecaoText);
 
         //Button DESCRICAO DE DADOS
-        pDadosButton = new JButton("Inserir");
-        pDadosButton.setBounds(126, 223, 160, 40);
-        pDadosButton.setBackground(Color.orange);
-        pDadosButton.addActionListener(new AbstractAction() {
+        bDadosButton = new JButton("Inserir");
+        bDadosButton.setBounds(126, 223, 160, 40);
+        bDadosButton.setBackground(Color.orange);
+        bDadosButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Airplane airPlane = new Airplane();
                 JLabel imgAviao = new JLabel();
+                airPlane.setCheckBox(false);
 
-                if(pDadosRaioText.getText().isEmpty() && pDadosAnguloText.getText().isEmpty()) {
+                if(tDadosRaioText.getText().isEmpty() && tDadosAnguloText.getText().isEmpty()) {
                     imgAviao.setVisible(true);
-                    imgAviao.setLocation(CordenadasRadar.cordenadaX(Integer.parseInt(pDadosXText.getText())),
-                            CordenadasRadar.cordenadaY(Integer.parseInt(pDadosYText.getText())));
+                    imgAviao.setLocation(CordenadasRadar.cordenadaX(Integer.parseInt(tDadosXText.getText())),
+                            CordenadasRadar.cordenadaY(Integer.parseInt(tDadosYText.getText())));
 
                     try{
                         imgAviao.setIcon(
                                 new ImageIcon(
                                         RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
-                                                Integer.parseInt(pDadosDirecaoText.getText()))));
+                                                Integer.parseInt(tDadosDirecaoText.getText()))));
                     }catch (Exception ex){
                         System.out.println(ex.getMessage());
                     }
                     imgAviao.setSize(30,30);
 
-                    airPlane.setX(Float.parseFloat(pDadosXText.getText()));
-                    airPlane.setY(Float.parseFloat(pDadosYText.getText()));
-                    airPlane.setVelocidade(Float.parseFloat(pDadosVelocidadeText.getText()));
-                    airPlane.setDirecao(Float.parseFloat(pDadosDirecaoText.getText()));
+                    airPlane.setX(Float.parseFloat(tDadosXText.getText()));
+                    airPlane.setY(Float.parseFloat(tDadosYText.getText()));
+                    airPlane.setVelocidade(Float.parseFloat(tDadosVelocidadeText.getText()));
+                    airPlane.setDirecao(Float.parseFloat(tDadosDirecaoText.getText()));
                     airPlane.setImgAirplane(imgAviao);
 
                 } else {
                     imgAviao.setVisible(true);
-                    imgAviao.setLocation(CordenadasRadar.polarX(Integer.parseInt(pDadosRaioText.getText()), Integer.parseInt(pDadosAnguloText.getText())),
-                            CordenadasRadar.polarY(Integer.parseInt(pDadosRaioText.getText()), Integer.parseInt(pDadosAnguloText.getText())));
+                    imgAviao.setLocation(CordenadasRadar.polarX(Integer.parseInt(tDadosRaioText.getText()), Integer.parseInt(tDadosAnguloText.getText())),
+                            CordenadasRadar.polarY(Integer.parseInt(tDadosRaioText.getText()), Integer.parseInt(tDadosAnguloText.getText())));
 
                     try{
                         imgAviao.setIcon(
                                 new ImageIcon(
                                         RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
-                                                Integer.parseInt(pDadosDirecaoText.getText()))));
+                                                Integer.parseInt(tDadosDirecaoText.getText()))));
                     }catch (Exception ex){
-                        System.out.println(ex+" aqui");
+                        System.out.println(ex + " aqui");
                     }
                     imgAviao.setSize(30,30);
 
-                    airPlane.setRaio(Float.parseFloat(pDadosRaioText.getText()));
-                    airPlane.setAngulo(Float.parseFloat(pDadosAnguloText.getText()));
-                    airPlane.setVelocidade(Float.parseFloat(pDadosVelocidadeText.getText()));
-                    airPlane.setDirecao(Float.parseFloat(pDadosDirecaoText.getText()));
+                    airPlane.setRaio(Float.parseFloat(tDadosRaioText.getText()));
+                    airPlane.setAngulo(Float.parseFloat(tDadosAnguloText.getText()));
+                    airPlane.setVelocidade(Float.parseFloat(tDadosVelocidadeText.getText()));
+                    airPlane.setDirecao(Float.parseFloat(tDadosDirecaoText.getText()));
                     airPlane.setImgAirplane(imgAviao);
                 }
 
                 radar.setLista_avioes(airPlane.getId(), airPlane);
+                airPlaneTableModel.addAviao(airPlane);
                 pRadar.add(imgAviao);
                 pRadar.updateUI();
             }
         });
 
-        getContentPane().add(pDadosButton);
+        getContentPane().add(bDadosButton);
         getContentPane().add(pDados);
 
         ////////////////////////FUNÇÔES DE TRANSFORMAÇÂO///////////////////////////
@@ -269,39 +319,39 @@ public class Home extends JFrame {
         pTransformacaoTranslader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição X
-        pTransformacaoTransladerX = new JLabel("X:");
-        pTransformacaoTransladerX.setBounds(45, 340, 30, 30);
-        getContentPane().add(pTransformacaoTransladerX);
+        lTransformacaoTransladerX = new JLabel("X:");
+        lTransformacaoTransladerX.setBounds(45, 340, 30, 30);
+        getContentPane().add(lTransformacaoTransladerX);
 
         //input X
-        pTransformacaoTransladerXText = new JTextArea();
-        pTransformacaoTransladerXText.setBounds(80, 340, 30, 30);
-        pTransformacaoTransladerXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoTransladerXText);
+        tTransformacaoTransladerXText = new JTextArea();
+        tTransformacaoTransladerXText.setBounds(80, 340, 30, 30);
+        tTransformacaoTransladerXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoTransladerXText);
 
         //descrição Y
-        pTransformacaoTransladerY = new JLabel("Y:");
-        pTransformacaoTransladerY.setBounds(120, 340, 30, 30);
-        getContentPane().add(pTransformacaoTransladerY);
+        lTransformacaoTransladerY = new JLabel("Y:");
+        lTransformacaoTransladerY.setBounds(120, 340, 30, 30);
+        getContentPane().add(lTransformacaoTransladerY);
 
         //input Y
-        pTransformacaoTransladerYText = new JTextArea();
-        pTransformacaoTransladerYText.setBounds(150, 340, 30, 30);
-        pTransformacaoTransladerYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoTransladerYText);
+        tTransformacaoTransladerYText = new JTextArea();
+        tTransformacaoTransladerYText.setBounds(150, 340, 30, 30);
+        tTransformacaoTransladerYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoTransladerYText);
 
         //Button
-        pTransformacaoTransladerButton = new JButton("Translandar");
-        pTransformacaoTransladerButton.setBounds(46, 390, 140, 30);
-        pTransformacaoTransladerButton.setBackground(Color.blue);
-        pTransformacaoTransladerButton.addActionListener(new AbstractAction() {
+        bTransformacaoTransladerButton = new JButton("Translandar");
+        bTransformacaoTransladerButton.setBounds(46, 390, 140, 30);
+        bTransformacaoTransladerButton.setBackground(Color.blue);
+        bTransformacaoTransladerButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pTransformacaoTransladerButton);
+        getContentPane().add(bTransformacaoTransladerButton);
         getContentPane().add(pTransformacaoTranslader);
 
         ////////Painel Escalonar
@@ -311,39 +361,39 @@ public class Home extends JFrame {
 
 
         //descrição X
-        pTransformacaoEscalonarX = new JLabel("X:");
-        pTransformacaoEscalonarX.setBounds(225, 340, 30, 30);
-        getContentPane().add(pTransformacaoEscalonarX);
+        lTransformacaoEscalonarX = new JLabel("X:");
+        lTransformacaoEscalonarX.setBounds(225, 340, 30, 30);
+        getContentPane().add(lTransformacaoEscalonarX);
 
         //input X
-        pTransformacaoEscalonarXText = new JTextArea();
-        pTransformacaoEscalonarXText.setBounds(260, 340, 30, 30);
-        pTransformacaoEscalonarXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoEscalonarXText);
+        tTransformacaoEscalonarXText = new JTextArea();
+        tTransformacaoEscalonarXText.setBounds(260, 340, 30, 30);
+        tTransformacaoEscalonarXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoEscalonarXText);
 
         //descrição Y
-        pTransformacaoEscalonarY = new JLabel("Y:");
-        pTransformacaoEscalonarY.setBounds(300, 340, 30, 30);
-        getContentPane().add(pTransformacaoEscalonarY);
+        lTransformacaoEscalonarY = new JLabel("Y:");
+        lTransformacaoEscalonarY.setBounds(300, 340, 30, 30);
+        getContentPane().add(lTransformacaoEscalonarY);
 
         //input Y
-        pTransformacaoEscalonarYText = new JTextArea();
-        pTransformacaoEscalonarYText.setBounds(330, 340, 30, 30);
-        pTransformacaoEscalonarYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoEscalonarYText);
+        tTransformacaoEscalonarYText = new JTextArea();
+        tTransformacaoEscalonarYText.setBounds(330, 340, 30, 30);
+        tTransformacaoEscalonarYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoEscalonarYText);
 
         //Button
-        pTransformacaoEscalonarButton = new JButton("Escalonar");
-        pTransformacaoEscalonarButton.setBounds(226, 390, 140, 30);
-        pTransformacaoEscalonarButton.setBackground(Color.blue);
-        pTransformacaoEscalonarButton.addActionListener(new AbstractAction() {
+        bTransformacaoEscalonarButton = new JButton("Escalonar");
+        bTransformacaoEscalonarButton.setBounds(226, 390, 140, 30);
+        bTransformacaoEscalonarButton.setBackground(Color.blue);
+        bTransformacaoEscalonarButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pTransformacaoEscalonarButton);
+        getContentPane().add(bTransformacaoEscalonarButton);
         getContentPane().add(pTransformacaoEscalonar);
 
         ////////Painel rotacionar
@@ -352,9 +402,9 @@ public class Home extends JFrame {
         pTransformacaoRotacionar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição Ângulo
-        pTransformacaoRotacionarAngulo = new JLabel("Ângulo:");
-        pTransformacaoRotacionarAngulo.setBounds(46, 470, 100, 30);
-        getContentPane().add(pTransformacaoRotacionarAngulo);
+        lTransformacaoRotacionarAngulo = new JLabel("Ângulo:");
+        lTransformacaoRotacionarAngulo.setBounds(46, 470, 100, 30);
+        getContentPane().add(lTransformacaoRotacionarAngulo);
 
         //input Ângulo
         pTransformacaoRotacionarAnguloText = new JTextArea();
@@ -533,18 +583,6 @@ public class Home extends JFrame {
         getContentPane().add(pTempoMinEmRotaColisaoButton);
         getContentPane().add(pTempoMinEmRotaColisao);
 
-        /////////////////////////////DATAGRID//////////////////////////////////////////////
-
-        //Titulo
-        tituloDataGrid = new JLabel("DataGrid");
-        tituloDataGrid.setBounds(970, 12, 180, 24);
-        getContentPane().add(tituloDataGrid);
-
-        //Painel DataGrid
-        pDataGrid = new JPanel();
-        pDataGrid.setBounds(820, 43, 400, 300);
-        pDataGrid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pDataGrid);
 
         ////////////////////////////////////RELATORIO/////////////////////////////////
 
