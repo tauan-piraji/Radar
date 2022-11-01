@@ -56,14 +56,14 @@ public class Home extends JFrame {
     private JButton bTransformacaoEscalonarButton;
     private JPanel pTransformacaoRotacionar;
     private JLabel lTransformacaoRotacionarAngulo;
-    private JTextArea pTransformacaoRotacionarAnguloText;
-    private JLabel pTransformacaoRotacionarCentroDeRotacao;
+    private JTextArea tTransformacaoRotacionarAnguloText;
+    private JLabel lTransformacaoRotacionarCentroDeRotacao;
 
-    private JLabel pTransformacaoRotacionarX;
-    private JTextArea pTransformacaoRotacionarXText;
-    private JLabel pTransformacaoRotacionarY;
-    private JTextArea pTransformacaoRotacionarYText;
-    private JButton pTransformacaoRotacionarButton;
+    private JLabel lTransformacaoRotacionarX;
+    private JTextArea tTransformacaoRotacionarXText;
+    private JLabel lTransformacaoRotacionarY;
+    private JTextArea tTransformacaoRotacionarYText;
+    private JButton bTransformacaoRotacionarButton;
 
 
     //Radar
@@ -76,20 +76,20 @@ public class Home extends JFrame {
     //funções de Rastreamento
     private JLabel tituloRastreamento;
     private JPanel pDistanciaMinAeroporto;
-    private JLabel pDistanciaMinAeroportoLabel;
-    private JTextField pDistanciaMinAeroportoText;
-    private JButton pDistanciaMinAeroportoButton;
+    private JLabel lDistanciaMinAeroportoLabel;
+    private JTextField tDistanciaMinAeroportoText;
+    private JButton bDistanciaMinAeroportoButton;
 
 
 
     private JPanel pDistanciaMinAvioes;
-    private JLabel pDistanciaMinAvioesLabel;
-    private JTextField pDistanciaMinAvioesText;
-    private JButton pDistanciaMinAvioesButton;
+    private JLabel lDistanciaMinAvioesLabel;
+    private JTextField tDistanciaMinAvioesText;
+    private JButton bDistanciaMinAvioesButton;
     private JPanel pTempoMinEmRotaColisao;
-    private JLabel pTempoMinEmRotaColisaoLabel;
-    private JTextField pTempoMinEmRotaColisaoText;
-    private JButton pTempoMinEmRotaColisaoButton;
+    private JLabel lTempoMinEmRotaColisaoLabel;
+    private JTextField tTempoMinEmRotaColisaoText;
+    private JButton bTempoMinEmRotaColisaoButton;
 
     //DataGrid
     AirPlaneTableModel airPlaneTableModel = new AirPlaneTableModel();
@@ -407,50 +407,50 @@ public class Home extends JFrame {
         getContentPane().add(lTransformacaoRotacionarAngulo);
 
         //input Ângulo
-        pTransformacaoRotacionarAnguloText = new JTextArea();
-        pTransformacaoRotacionarAnguloText.setBounds(150, 470, 30, 30);
-        pTransformacaoRotacionarAnguloText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoRotacionarAnguloText);
+        tTransformacaoRotacionarAnguloText = new JTextArea();
+        tTransformacaoRotacionarAnguloText.setBounds(150, 470, 30, 30);
+        tTransformacaoRotacionarAnguloText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoRotacionarAnguloText);
 
         //Descrição Centro de rotação
-        pTransformacaoRotacionarCentroDeRotacao = new JLabel("Centro de Rotação:");
-        pTransformacaoRotacionarCentroDeRotacao.setBounds(190, 470, 200, 30);
-        getContentPane().add(pTransformacaoRotacionarCentroDeRotacao);
+        lTransformacaoRotacionarCentroDeRotacao = new JLabel("Centro de Rotação:");
+        lTransformacaoRotacionarCentroDeRotacao.setBounds(190, 470, 200, 30);
+        getContentPane().add(lTransformacaoRotacionarCentroDeRotacao);
 
         //descrição X
-        pTransformacaoRotacionarX = new JLabel("X:");
-        pTransformacaoRotacionarX.setBounds(215, 520, 30, 30);
-        getContentPane().add(pTransformacaoRotacionarX);
+        lTransformacaoRotacionarX = new JLabel("X:");
+        lTransformacaoRotacionarX.setBounds(215, 520, 30, 30);
+        getContentPane().add(lTransformacaoRotacionarX);
 
         //input X
-        pTransformacaoRotacionarXText = new JTextArea();
-        pTransformacaoRotacionarXText.setBounds(250, 520, 30, 30);
-        pTransformacaoRotacionarXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoRotacionarXText);
+        tTransformacaoRotacionarXText = new JTextArea();
+        tTransformacaoRotacionarXText.setBounds(250, 520, 30, 30);
+        tTransformacaoRotacionarXText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoRotacionarXText);
 
         //descrição Y
-        pTransformacaoRotacionarY = new JLabel("Y:");
-        pTransformacaoRotacionarY.setBounds(290, 520, 30, 30);
-        getContentPane().add(pTransformacaoRotacionarY);
+        lTransformacaoRotacionarY = new JLabel("Y:");
+        lTransformacaoRotacionarY.setBounds(290, 520, 30, 30);
+        getContentPane().add(lTransformacaoRotacionarY);
 
         //input Y
-        pTransformacaoRotacionarYText = new JTextArea();
-        pTransformacaoRotacionarYText.setBounds(320, 520, 30, 30);
-        pTransformacaoRotacionarYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        getContentPane().add(pTransformacaoRotacionarYText);
+        tTransformacaoRotacionarYText = new JTextArea();
+        tTransformacaoRotacionarYText.setBounds(320, 520, 30, 30);
+        tTransformacaoRotacionarYText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        getContentPane().add(tTransformacaoRotacionarYText);
 
         //Button
-        pTransformacaoRotacionarButton = new JButton("Rotacionar");
-        pTransformacaoRotacionarButton.setBounds(46, 520, 140, 30);
-        pTransformacaoRotacionarButton.setBackground(Color.blue);
-        pTransformacaoRotacionarButton.addActionListener(new AbstractAction() {
+        bTransformacaoRotacionarButton = new JButton("Rotacionar");
+        bTransformacaoRotacionarButton.setBounds(46, 520, 140, 30);
+        bTransformacaoRotacionarButton.setBackground(Color.blue);
+        bTransformacaoRotacionarButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pTransformacaoRotacionarButton);
+        getContentPane().add(bTransformacaoRotacionarButton);
         getContentPane().add(pTransformacaoRotacionar);
 
         //////////////////////////////RADAR///////////////////////////////////////
@@ -500,27 +500,27 @@ public class Home extends JFrame {
         pDistanciaMinAeroporto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição input
-        pDistanciaMinAeroportoLabel = new JLabel("Distância mínima:");
-        pDistanciaMinAeroportoLabel.setBounds(66, 580, 200, 120);
-        getContentPane().add(pDistanciaMinAeroportoLabel);
+        lDistanciaMinAeroportoLabel = new JLabel("Distância mínima:");
+        lDistanciaMinAeroportoLabel.setBounds(66, 580, 200, 120);
+        getContentPane().add(lDistanciaMinAeroportoLabel);
 
         //input
-        pDistanciaMinAeroportoText = new JTextField();
-        pDistanciaMinAeroportoText.setBounds(270, 625, 35, 35);
-        getContentPane().add(pDistanciaMinAeroportoText);
+        tDistanciaMinAeroportoText = new JTextField();
+        tDistanciaMinAeroportoText.setBounds(270, 625, 35, 35);
+        getContentPane().add(tDistanciaMinAeroportoText);
 
         //Button
-        pDistanciaMinAeroportoButton = new JButton("Aviões próximos ao Aeroporto");
-        pDistanciaMinAeroportoButton.setBounds(66, 670, 250, 41);
-        pDistanciaMinAeroportoButton.setBackground(Color.red);
-        pDistanciaMinAeroportoButton.addActionListener(new AbstractAction() {
+        bDistanciaMinAeroportoButton = new JButton("Aviões próximos ao Aeroporto");
+        bDistanciaMinAeroportoButton.setBounds(66, 670, 250, 41);
+        bDistanciaMinAeroportoButton.setBackground(Color.red);
+        bDistanciaMinAeroportoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pDistanciaMinAeroportoButton);
+        getContentPane().add(bDistanciaMinAeroportoButton);
 
         getContentPane().add(pDistanciaMinAeroporto);
 
@@ -531,27 +531,27 @@ public class Home extends JFrame {
         pDistanciaMinAvioes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição input
-        pDistanciaMinAvioesLabel = new JLabel("Distância mín:");
-        pDistanciaMinAvioesLabel.setBounds(400, 580, 150, 120);
-        getContentPane().add(pDistanciaMinAvioesLabel);
+        lDistanciaMinAvioesLabel = new JLabel("Distância mín:");
+        lDistanciaMinAvioesLabel.setBounds(400, 580, 150, 120);
+        getContentPane().add(lDistanciaMinAvioesLabel);
 
         //input
-        pDistanciaMinAvioesText = new JTextField();
-        pDistanciaMinAvioesText.setBounds(550, 625, 35, 35);
-        getContentPane().add(pDistanciaMinAvioesText);
+        tDistanciaMinAvioesText = new JTextField();
+        tDistanciaMinAvioesText.setBounds(550, 625, 35, 35);
+        getContentPane().add(tDistanciaMinAvioesText);
 
         //Button
-        pDistanciaMinAvioesButton = new JButton("Aviões próximos");
-        pDistanciaMinAvioesButton.setBounds(410, 670, 170, 41);
-        pDistanciaMinAvioesButton.setBackground(Color.red);
-        pDistanciaMinAvioesButton.addActionListener(new AbstractAction() {
+        bDistanciaMinAvioesButton = new JButton("Aviões próximos");
+        bDistanciaMinAvioesButton.setBounds(410, 670, 170, 41);
+        bDistanciaMinAvioesButton.setBackground(Color.red);
+        bDistanciaMinAvioesButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pDistanciaMinAvioesButton);
+        getContentPane().add(bDistanciaMinAvioesButton);
         getContentPane().add(pDistanciaMinAvioes);
 
         ////////////////////////Painel tempo min em rota de colisão////////////////////////
@@ -560,27 +560,27 @@ public class Home extends JFrame {
         pTempoMinEmRotaColisao.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //descrição input
-        pTempoMinEmRotaColisaoLabel = new JLabel("Tempo mín:");
-        pTempoMinEmRotaColisaoLabel.setBounds(625, 580, 150, 120);
-        getContentPane().add(pTempoMinEmRotaColisaoLabel);
+        lTempoMinEmRotaColisaoLabel = new JLabel("Tempo mín:");
+        lTempoMinEmRotaColisaoLabel.setBounds(625, 580, 150, 120);
+        getContentPane().add(lTempoMinEmRotaColisaoLabel);
 
         //input
-        pTempoMinEmRotaColisaoText = new JTextField();
-        pTempoMinEmRotaColisaoText.setBounds(760, 625, 35, 35);
-        getContentPane().add(pTempoMinEmRotaColisaoText);
+        tTempoMinEmRotaColisaoText = new JTextField();
+        tTempoMinEmRotaColisaoText.setBounds(760, 625, 35, 35);
+        getContentPane().add(tTempoMinEmRotaColisaoText);
 
         //Button
-        pTempoMinEmRotaColisaoButton = new JButton("Em rota de colisão");
-        pTempoMinEmRotaColisaoButton.setBounds(625, 670, 170, 41);
-        pTempoMinEmRotaColisaoButton.setBackground(Color.red);
-        pTempoMinEmRotaColisaoButton.addActionListener(new AbstractAction() {
+        bTempoMinEmRotaColisaoButton = new JButton("Em rota de colisão");
+        bTempoMinEmRotaColisaoButton.setBounds(625, 670, 170, 41);
+        bTempoMinEmRotaColisaoButton.setBackground(Color.red);
+        bTempoMinEmRotaColisaoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        getContentPane().add(pTempoMinEmRotaColisaoButton);
+        getContentPane().add(bTempoMinEmRotaColisaoButton);
         getContentPane().add(pTempoMinEmRotaColisao);
 
 
