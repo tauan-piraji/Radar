@@ -4,6 +4,7 @@ import doMain.AirPlaneTableModel;
 import doMain.Airplane;
 import doMain.Radar;
 import util.calculos.CordenadasRadar;
+import util.calculos.FuncoesTransformacao;
 import util.rotacionaImg.RotacionaAviao;
 
 import javax.swing.*;
@@ -347,7 +348,27 @@ public class Home extends JFrame {
         bTransformacaoTransladerButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
+                    if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
+                        FuncoesTransformacao.translandar(airPlaneTableModel.getAviao(i),
+                                Integer.parseInt(tTransformacaoTransladerXText.getText()),
+                                Integer.parseInt(tTransformacaoTransladerYText.getText()));
+
+                        Airplane airplane = airPlaneTableModel.getAviao(i);
+
+                        radar.remove(airPlaneTableModel.getAviao(i).getId());
+                        airPlaneTableModel.removeAviao(i);
+
+                        airPlaneTableModel.addAviao(airplane);
+                        radar.setLista_avioes(airplane.getId(), airplane);
+
+                    }
+                }
+
+                radar.updateUI();
+                tDataGrid.setModel(airPlaneTableModel);
+                tDataGrid.updateUI();
             }
         });
 

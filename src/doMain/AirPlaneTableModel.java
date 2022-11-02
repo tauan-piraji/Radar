@@ -117,7 +117,9 @@ public class AirPlaneTableModel extends AbstractTableModel {
     }
 
     public void addAviao(Airplane aviao) {
-        aviao.setId(getProximoCodigo());
+        if(aviao.getId() == null) {
+            aviao.setId(getProximoCodigo());
+        }
         airplaneList.add(aviao);
         int ultimoIndice = getRowCount() - 1;
         fireTableRowsInserted(ultimoIndice, ultimoIndice);
