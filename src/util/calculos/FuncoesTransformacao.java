@@ -4,23 +4,52 @@ import doMain.Airplane;
 
 public class FuncoesTransformacao {
 
-    public static void translandar(Airplane airplane, int x, int y){
-        airplane.setX(airplane.getX()+x);
-        airplane.setY(airplane.getY()+y);
+    public static void translandar(Airplane airplane, int cordX, int cordY){
+        airplane.setCordX(airplane.getCordX() + cordX);
+        airplane.setCordY(airplane.getCordY() + cordY);
         converteCartesianoPolar(airplane);
-        alteraPosicao(airplane);
+        alteraPosicao(airplane, (int) airplane.getCordX(), (int) airplane.getCordY());
+    }
+
+    public static void escalonar(Airplane airplane, int x, int y){
+        alteraPosicao(airplane, (int) (airplane.getCordX() * (x/100)), (int) (airplane.getCordY() * (y/100)));
+        converteCartesianoPolar(airplane);
+    }
+
+    public static void rotacionar(Airplane airplane, double cordX, double cordY, double angulo ) {
+        float auxX = (float) (cordX > 0 ? -cordX : cordX);
+        float auxY = (float) (cordY > 0 ? -cordY : cordY);
+
+        translandar(airplane, (int) (cordX > 0 ? -cordX : cordX), (int) (cordY > 0 ? -cordY : cordY));
+
+        // rotacionar
+        double anguloRadianos = Math.toRadians(angulo);
+        double cosseno = Math.cos(anguloRadianos);
+        double seno = Math.sin(anguloRadianos);
+
+        double novoX = (airplane.getCordX() * cosseno) - (airplane.getCordY() * seno);
+        double novoY = (airplane.getCordY() * cosseno) + (airplane.getCordX() * seno);
+
+        airplane.setCordX((float) novoX);
+        airplane.setCordY((float) novoY);
+
+        // voltar a transla��o
+        auxX = auxX * -1;
+        auxY = auxY * -1;
+
+        translandar(airplane, (int) auxX, (int) auxY);
     }
 
     public static void converteCartesianoPolar(Airplane airplane) {
-        airplane.setRaio((float) Math.sqrt((airplane.getX() * airplane.getX())
-                                            + (airplane.getY() * airplane.getY())));
+        airplane.setRaio((float) Math.sqrt((airplane.getCordX() * airplane.getCordX())
+                                            + (airplane.getCordY() * airplane.getCordY())));
 
-        airplane.setAngulo((float) Math.toDegrees(Math.atan(airplane.getX() / airplane.getY())));
+        airplane.setAngulo((float) Math.toDegrees(Math.atan(airplane.getCordX() / airplane.getCordY())));
     }
 
-    public static void alteraPosicao(Airplane airplane){
-        airplane.getImgAirplane().setBounds(CordenadasRadar.cordenadaX((int) airplane.getX()),
-                CordenadasRadar.cordenadaY((int) airplane.getY()),
+    public static void alteraPosicao(Airplane airplane, int cordX, int cordY){
+        airplane.getImgAirplane().setBounds(CordenadasRadar.cordenadaX(cordX),
+                CordenadasRadar.cordenadaY(cordY),
                 airplane.getImgAirplane().getWidth(),
                 airplane.getImgAirplane().getHeight());
 

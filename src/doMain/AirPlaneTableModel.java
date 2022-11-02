@@ -62,9 +62,9 @@ public class AirPlaneTableModel extends AbstractTableModel {
             case 1:
                 return m.getId();
             case 2:
-                return m.getX();
+                return m.getCordX();
             case 3:
-                return m.getY();
+                return m.getCordY();
             case 4:
                 return m.getRaio();
             case 5:
@@ -91,9 +91,9 @@ public class AirPlaneTableModel extends AbstractTableModel {
                 case 1:
                     Aeronave.setId(Integer.parseInt(aValue.toString()));
                 case 2:
-                    Aeronave.setX(Float.parseFloat(aValue.toString()));
+                    Aeronave.setCordX(Float.parseFloat(aValue.toString()));
                 case 3:
-                    Aeronave.setY(Float.parseFloat(aValue.toString()));
+                    Aeronave.setCordY(Float.parseFloat(aValue.toString()));
                 case 4:
                     Aeronave.setRaio(Float.parseFloat(aValue.toString()));
                 case 5:

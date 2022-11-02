@@ -269,8 +269,8 @@ public class Home extends JFrame {
                     }
                     imgAviao.setSize(30,30);
 
-                    airPlane.setX(Float.parseFloat(tDadosXText.getText()));
-                    airPlane.setY(Float.parseFloat(tDadosYText.getText()));
+                    airPlane.setCordX(Float.parseFloat(tDadosXText.getText()));
+                    airPlane.setCordY(Float.parseFloat(tDadosYText.getText()));
                     airPlane.setVelocidade(Float.parseFloat(tDadosVelocidadeText.getText()));
                     airPlane.setDirecao(Float.parseFloat(tDadosDirecaoText.getText()));
                     airPlane.setImgAirplane(imgAviao);
@@ -410,7 +410,27 @@ public class Home extends JFrame {
         bTransformacaoEscalonarButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
+                    if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
+                        FuncoesTransformacao.escalonar(airPlaneTableModel.getAviao(i),
+                                Integer.parseInt(tTransformacaoEscalonarXText.getText()),
+                                Integer.parseInt(tTransformacaoEscalonarYText.getText()));
+
+                        Airplane airplane = airPlaneTableModel.getAviao(i);
+
+                        radar.remove(airPlaneTableModel.getAviao(i).getId());
+                        airPlaneTableModel.removeAviao(i);
+
+                        airPlaneTableModel.addAviao(airplane);
+                        radar.setLista_avioes(airplane.getId(), airplane);
+
+                    }
+                }
+
+                radar.updateUI();
+                tDataGrid.setModel(airPlaneTableModel);
+                tDataGrid.updateUI();
             }
         });
 
@@ -467,7 +487,28 @@ public class Home extends JFrame {
         bTransformacaoRotacionarButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
+                    if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
+                        FuncoesTransformacao.rotacionar(airPlaneTableModel.getAviao(i),
+                                Integer.parseInt(tTransformacaoRotacionarXText.getText()),
+                                Integer.parseInt(tTransformacaoRotacionarYText.getText()),
+                                Integer.parseInt(tTransformacaoRotacionarAnguloText.getText()));
+
+                        Airplane airplane = airPlaneTableModel.getAviao(i);
+
+                        radar.remove(airPlaneTableModel.getAviao(i).getId());
+                        airPlaneTableModel.removeAviao(i);
+
+                        airPlaneTableModel.addAviao(airplane);
+                        radar.setLista_avioes(airplane.getId(), airplane);
+
+                    }
+                }
+
+                radar.updateUI();
+                tDataGrid.setModel(airPlaneTableModel);
+                tDataGrid.updateUI();
             }
         });
 

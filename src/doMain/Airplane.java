@@ -6,8 +6,8 @@ public class Airplane {
 
     private Boolean checkBox;
     private Integer id;
-    private float x;
-    private float y;
+    private float cordX;
+    private float cordY;
     private float raio;
     private float angulo;
     private float velocidade;
@@ -30,20 +30,20 @@ public class Airplane {
         this.id = id;
     }
 
-    public float getX() {
-        return x;
+    public float getCordX() {
+        return cordX;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setCordX(float cordX) {
+        this.cordX = cordX;
     }
 
-    public float getY() {
-        return y;
+    public float getCordY() {
+        return cordY;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setCordY(float cordY) {
+        this.cordY = cordY;
     }
 
     public float getRaio() {
