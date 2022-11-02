@@ -15,10 +15,6 @@ public class AirPlaneTableModel extends AbstractTableModel {
         this.airplaneList = new ArrayList<>();
     }
 
-    public AirPlaneTableModel(List<Airplane> lista) {
-        this.airplaneList = lista;
-    }
-
     @Override
     public int getRowCount() {
         return this.airplaneList.size();
