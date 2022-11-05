@@ -630,7 +630,11 @@ public class Home extends JFrame {
         bDistanciaMinAvioesButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for (String collisionRisk : FuncoesRastreamento.distanciaEntreAvioes(radar.getLista_avioes(),
+                        Float.parseFloat(tDistanciaMinAvioesText.getText()))) {
 
+                    tRelatorio.setText(tRelatorio.getText() + collisionRisk + "\n");
+                }
             }
         });
 
