@@ -9,15 +9,15 @@ import java.util.List;
 public class AirPlaneTableModel extends AbstractTableModel {
 
     private final String[] colunas = new String[] {"CB", "ID", "X", "Y", "R", "A", "V", "D"};
-    private List<Airplane> airplaneList;
+    private List<AirPlane> airPlaneList;
 
     public AirPlaneTableModel() {
-        this.airplaneList = new ArrayList<>();
+        this.airPlaneList = new ArrayList<>();
     }
 
     @Override
     public int getRowCount() {
-        return this.airplaneList.size();
+        return this.airPlaneList.size();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AirPlaneTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int column) {
-        Airplane m = airplaneList.get(row);
+        AirPlane m = airPlaneList.get(row);
 
         switch (column) {
             case 0:
@@ -79,7 +79,7 @@ public class AirPlaneTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Airplane Aeronave = airplaneList.get(rowIndex);
+        AirPlane Aeronave = airPlaneList.get(rowIndex);
         try{
             switch (columnIndex) {
                 case 0:
@@ -108,32 +108,32 @@ public class AirPlaneTableModel extends AbstractTableModel {
         fireTableCellUpdated(rowIndex, columnIndex);
     }
 
-    public Airplane getAviao(int indiceLinha) {
-        return airplaneList.get(indiceLinha);
+    public AirPlane getAviao(int indiceLinha) {
+        return airPlaneList.get(indiceLinha);
     }
 
-    public void addAviao(Airplane aviao) {
+    public void addAviao(AirPlane aviao) {
         if(aviao.getId() == null) {
             aviao.setId(getProximoCodigo());
         }
-        airplaneList.add(aviao);
+        airPlaneList.add(aviao);
         int ultimoIndice = getRowCount() - 1;
         fireTableRowsInserted(ultimoIndice, ultimoIndice);
     }
 
     public void removeAviao(int indiceLinha) {
-        airplaneList.remove(indiceLinha);
+        airPlaneList.remove(indiceLinha);
         fireTableRowsDeleted(indiceLinha, indiceLinha);
     }
 
     private int getProximoCodigo() {
         int proximoCodigo = 1;
 
-        if (airplaneList.size() == 0) {
+        if (airPlaneList.size() == 0) {
             return proximoCodigo;
         }
 
-        for (Airplane a : airplaneList) {
+        for (AirPlane a : airPlaneList) {
             if (a.getId() >= proximoCodigo) {
                 proximoCodigo = a.getId() + 1;
             }

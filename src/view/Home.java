@@ -1,9 +1,10 @@
 package view;
 
 import doMain.AirPlaneTableModel;
-import doMain.Airplane;
+import doMain.AirPlane;
 import doMain.Radar;
 import util.calculos.CordenadasRadar;
+import util.calculos.FuncoesRastreamento;
 import util.calculos.FuncoesTransformacao;
 import util.rotacionaImg.RotacionaAviao;
 
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Collection;
 import java.util.Objects;
 
 public class Home extends JFrame {
@@ -100,7 +102,8 @@ public class Home extends JFrame {
 
     //Radarelatorio
     private JLabel tituloRadarelatorio;
-    private JPanel pRadarelatorio;
+    private JScrollPane pRadarelatorio;
+    private JTextArea tRelatorio;
 
     public Home() {
         this.setSize(1300, 1000);
@@ -250,7 +253,7 @@ public class Home extends JFrame {
         bDadosButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Airplane airPlane = new Airplane();
+                AirPlane airPlane = new AirPlane();
                 JLabel imgAviao = new JLabel();
                 airPlane.setCheckBox(false);
 
@@ -271,6 +274,14 @@ public class Home extends JFrame {
 
                     airPlane.setCordX(Float.parseFloat(tDadosXText.getText()));
                     airPlane.setCordY(Float.parseFloat(tDadosYText.getText()));
+
+                    airPlane.setRaio(CordenadasRadar.calculaRaio(Integer.parseInt(tDadosXText.getText()),
+                                                                        Integer.parseInt(tDadosYText.getText())));
+
+                    airPlane.setAngulo(CordenadasRadar.calculaAngulo(Integer.parseInt(tDadosYText.getText()),
+                            CordenadasRadar.calculaRaio(Integer.parseInt(tDadosXText.getText()),
+                                    Integer.parseInt(tDadosYText.getText()))));
+
                     airPlane.setVelocidade(Float.parseFloat(tDadosVelocidadeText.getText()));
                     airPlane.setDirecao(Float.parseFloat(tDadosDirecaoText.getText()));
                     airPlane.setImgAirplane(imgAviao);
@@ -289,6 +300,12 @@ public class Home extends JFrame {
                         System.out.println(ex + " aqui");
                     }
                     imgAviao.setSize(30,30);
+
+                    airPlane.setCordX(CordenadasRadar.X(Integer.parseInt(tDadosRaioText.getText()),
+                            Integer.parseInt(tDadosAnguloText.getText())));
+
+                    airPlane.setCordY(CordenadasRadar.Y(Integer.parseInt(tDadosRaioText.getText()),
+                            Integer.parseInt(tDadosAnguloText.getText())));
 
                     airPlane.setRaio(Float.parseFloat(tDadosRaioText.getText()));
                     airPlane.setAngulo(Float.parseFloat(tDadosAnguloText.getText()));
@@ -355,7 +372,7 @@ public class Home extends JFrame {
                                 Integer.parseInt(tTransformacaoTransladerXText.getText()),
                                 Integer.parseInt(tTransformacaoTransladerYText.getText()));
 
-                        Airplane airplane = airPlaneTableModel.getAviao(i);
+                        AirPlane airplane = airPlaneTableModel.getAviao(i);
 
                         radar.remove(airPlaneTableModel.getAviao(i).getId());
                         airPlaneTableModel.removeAviao(i);
@@ -417,7 +434,7 @@ public class Home extends JFrame {
                                 Integer.parseInt(tTransformacaoEscalonarXText.getText()),
                                 Integer.parseInt(tTransformacaoEscalonarYText.getText()));
 
-                        Airplane airplane = airPlaneTableModel.getAviao(i);
+                        AirPlane airplane = airPlaneTableModel.getAviao(i);
 
                         radar.remove(airPlaneTableModel.getAviao(i).getId());
                         airPlaneTableModel.removeAviao(i);
@@ -495,7 +512,7 @@ public class Home extends JFrame {
                                 Integer.parseInt(tTransformacaoRotacionarYText.getText()),
                                 Integer.parseInt(tTransformacaoRotacionarAnguloText.getText()));
 
-                        Airplane airplane = airPlaneTableModel.getAviao(i);
+                        AirPlane airplane = airPlaneTableModel.getAviao(i);
 
                         radar.remove(airPlaneTableModel.getAviao(i).getId());
                         airPlaneTableModel.removeAviao(i);
@@ -578,7 +595,11 @@ public class Home extends JFrame {
         bDistanciaMinAeroportoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for (AirPlane airPlane : FuncoesRastreamento.distanciaBase(radar.getLista_avioes(),
+                        Float.parseFloat(tDistanciaMinAeroportoText.getText()))) {
 
+                    tRelatorio.setText(tRelatorio.getText() + "Avião " + airPlane.getId() + " está próximo da base \n");
+                }
             }
         });
 
@@ -653,10 +674,17 @@ public class Home extends JFrame {
         tituloRadarelatorio.setBounds(970, 360, 180, 24);
         getContentPane().add(tituloRadarelatorio);
 
+        //Text relatorio
+        tRelatorio = new JTextArea();
+        tRelatorio.setBounds(820, 390, 400, 400);
+        tRelatorio.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tRelatorio.setEditable(false);
+
         //Painel Radar
-        pRadarelatorio = new JPanel();
+        pRadarelatorio = new JScrollPane(tRelatorio);
         pRadarelatorio.setBounds(820, 390, 400, 400);
         pRadarelatorio.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         getContentPane().add(pRadarelatorio);
     }
 

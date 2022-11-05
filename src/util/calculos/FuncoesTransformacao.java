@@ -1,22 +1,22 @@
 package util.calculos;
 
-import doMain.Airplane;
+import doMain.AirPlane;
 
 public class FuncoesTransformacao {
 
-    public static void translandar(Airplane airplane, int cordX, int cordY){
+    public static void translandar(AirPlane airplane, int cordX, int cordY){
         airplane.setCordX(airplane.getCordX() + cordX);
         airplane.setCordY(airplane.getCordY() + cordY);
         converteCartesianoPolar(airplane);
         alteraPosicao(airplane, (int) airplane.getCordX(), (int) airplane.getCordY());
     }
 
-    public static void escalonar(Airplane airplane, int x, int y){
+    public static void escalonar(AirPlane airplane, int x, int y){
         alteraPosicao(airplane, (int) (airplane.getCordX() * (x/100)), (int) (airplane.getCordY() * (y/100)));
         converteCartesianoPolar(airplane);
     }
 
-    public static void rotacionar(Airplane airplane, double cordX, double cordY, double angulo ) {
+    public static void rotacionar(AirPlane airplane, double cordX, double cordY, double angulo ) {
         float auxX = (float) (cordX > 0 ? -cordX : cordX);
         float auxY = (float) (cordY > 0 ? -cordY : cordY);
 
@@ -40,19 +40,17 @@ public class FuncoesTransformacao {
         translandar(airplane, (int) auxX, (int) auxY);
     }
 
-    public static void converteCartesianoPolar(Airplane airplane) {
+    public static void converteCartesianoPolar(AirPlane airplane) {
         airplane.setRaio((float) Math.sqrt((airplane.getCordX() * airplane.getCordX())
                                             + (airplane.getCordY() * airplane.getCordY())));
 
         airplane.setAngulo((float) Math.toDegrees(Math.atan(airplane.getCordX() / airplane.getCordY())));
     }
 
-    public static void alteraPosicao(Airplane airplane, int cordX, int cordY){
+    public static void alteraPosicao(AirPlane airplane, int cordX, int cordY){
         airplane.getImgAirplane().setBounds(CordenadasRadar.cordenadaX(cordX),
                 CordenadasRadar.cordenadaY(cordY),
                 airplane.getImgAirplane().getWidth(),
                 airplane.getImgAirplane().getHeight());
-
     }
-
 }

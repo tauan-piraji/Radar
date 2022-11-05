@@ -21,4 +21,26 @@ public class CordenadasRadar {
 
         return cordenadaY(y);
     }
+
+    public static float calculaRaio(int cordX, int cordY) {
+        return (float) Math.sqrt((cordX * cordX) + (cordY * cordY));
+    }
+
+    public static float calculaAngulo(int cordY, float raio) {
+        if(cordY == 0) {
+            return 0;
+        } else if (cordY < 0) {
+            return (float) Math.toDegrees(Math.sin(cordY* -1) / raio);
+        } else {
+            return (float) Math.toDegrees(Math.sin(cordY / raio));
+        }
+    }
+
+    public static int X(int raio, int angulo){
+        return (int) (Math.cos(Math.toRadians(angulo))*raio);
+    }
+
+    public static int Y(int raio, int angulo){
+        return (int) (Math.sin(Math.toRadians(angulo))*raio);
+    }
 }

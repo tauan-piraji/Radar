@@ -1,8 +1,9 @@
 package doMain;
 
 import javax.swing.*;
+import java.util.Comparator;
 
-public class Airplane {
+public class AirPlane implements Comparable<AirPlane> {
 
     private Boolean checkBox;
     private Integer id;
@@ -84,5 +85,18 @@ public class Airplane {
 
     public void setImgAirplane(JLabel imgAirplane) {
         this.imgAirplane = imgAirplane;
+    }
+
+    @Override
+    public int compareTo(AirPlane airPlane) {
+        if (this.getRaio() < airPlane.getRaio()) {
+            return -1;
+        }
+
+        if (this.getRaio() > airPlane.getRaio()) {
+            return 1;
+        }
+
+        return 0;
     }
 }
