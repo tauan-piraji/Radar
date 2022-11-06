@@ -6,14 +6,13 @@ import doMain.Radar;
 import util.calculos.CordenadasRadar;
 import util.calculos.FuncoesRastreamento;
 import util.calculos.FuncoesTransformacao;
-import util.rotacionaImg.RotacionaAviao;
+import util.rotacionaImg.RotateImgPlane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Collection;
 import java.util.Objects;
 
 public class Home extends JFrame {
@@ -265,7 +264,7 @@ public class Home extends JFrame {
                     try{
                         imgAviao.setIcon(
                                 new ImageIcon(
-                                        RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
+                                        RotateImgPlane.rotateIMG(getClass().getResource("/util/img/aviao.png"),
                                                 Integer.parseInt(tDadosDirecaoText.getText()))));
                     }catch (Exception ex){
                         System.out.println(ex.getMessage());
@@ -294,7 +293,7 @@ public class Home extends JFrame {
                     try{
                         imgAviao.setIcon(
                                 new ImageIcon(
-                                        RotacionaAviao.rodarImg(getClass().getResource("/util/img/aviao.png"),
+                                        RotateImgPlane.rotateIMG(getClass().getResource("/util/img/aviao.png"),
                                                 Integer.parseInt(tDadosDirecaoText.getText()))));
                     }catch (Exception ex){
                         System.out.println(ex + " aqui");
@@ -368,7 +367,7 @@ public class Home extends JFrame {
                 for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
                     if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
-                        FuncoesTransformacao.translandar(airPlaneTableModel.getAviao(i),
+                        FuncoesTransformacao.translate(airPlaneTableModel.getAviao(i),
                                 Integer.parseInt(tTransformacaoTransladerXText.getText()),
                                 Integer.parseInt(tTransformacaoTransladerYText.getText()));
 
@@ -430,7 +429,7 @@ public class Home extends JFrame {
                 for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
                     if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
-                        FuncoesTransformacao.escalonar(airPlaneTableModel.getAviao(i),
+                        FuncoesTransformacao.stagger(airPlaneTableModel.getAviao(i),
                                 Integer.parseInt(tTransformacaoEscalonarXText.getText()),
                                 Integer.parseInt(tTransformacaoEscalonarYText.getText()));
 
@@ -507,7 +506,7 @@ public class Home extends JFrame {
                 for(int i = 0; i < airPlaneTableModel.getRowCount(); i++) {
                     if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
 
-                        FuncoesTransformacao.rotacionar(airPlaneTableModel.getAviao(i),
+                        FuncoesTransformacao.rotate(airPlaneTableModel.getAviao(i),
                                 Integer.parseInt(tTransformacaoRotacionarXText.getText()),
                                 Integer.parseInt(tTransformacaoRotacionarYText.getText()),
                                 Integer.parseInt(tTransformacaoRotacionarAnguloText.getText()));
@@ -595,7 +594,7 @@ public class Home extends JFrame {
         bDistanciaMinAeroportoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (AirPlane airPlane : FuncoesRastreamento.distanciaBase(radar.getLista_avioes(),
+                for (AirPlane airPlane : FuncoesRastreamento.distanceBase(radar.getLista_avioes(),
                         Float.parseFloat(tDistanciaMinAeroportoText.getText()))) {
 
                     tRelatorio.setText(tRelatorio.getText() + "Avião " + airPlane.getId() + " está próximo da base \n");
@@ -630,7 +629,7 @@ public class Home extends JFrame {
         bDistanciaMinAvioesButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (String collisionRisk : FuncoesRastreamento.distanciaEntreAvioes(radar.getLista_avioes(),
+                for (String collisionRisk : FuncoesRastreamento.riskDistancePlanes(radar.getLista_avioes(),
                         Float.parseFloat(tDistanciaMinAvioesText.getText()))) {
 
                     tRelatorio.setText(tRelatorio.getText() + collisionRisk + "\n");
@@ -663,7 +662,11 @@ public class Home extends JFrame {
         bTempoMinEmRotaColisaoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for (String collisionRisk : FuncoesRastreamento.collisionRiskList(radar.getLista_avioes(),
+                        Float.parseFloat(tTempoMinEmRotaColisaoText.getText()))) {
 
+                    tRelatorio.setText(tRelatorio.getText() + collisionRisk + "\n");
+                }
             }
         });
 

@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-public class RotacionaAviao extends JPanel {
+public class RotateImgPlane extends JPanel {
 
-    public static BufferedImage rodarImg(URL img2, int angulo) {
+    public static BufferedImage rotateIMG(URL img2, int angulo) {
         BufferedImage img = null;
 
         try{
