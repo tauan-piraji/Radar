@@ -1,5 +1,7 @@
 package util.calculos;
 
+import java.text.DecimalFormat;
+
 public class CordenadasRadar {
 
     public static int cordenadaX(int x) {
@@ -26,13 +28,19 @@ public class CordenadasRadar {
         return (float) Math.sqrt((cordX * cordX) + (cordY * cordY));
     }
 
-    public static float calculaAngulo(int cordY, float raio) {
-        if(cordY == 0) {
+    public static float calculateAngle(int cordX, int cordY, float raio) {
+        if(cordY == 0 && cordX > 0) {
             return 0;
+        } else if (cordY == 0 && cordX < 0) {
+            return 180;
+        } else if (cordY > 0 && cordX == 0) {
+            return 90;
+        } else if (cordY < 0 && cordX == 0) {
+            return 270;
         } else if (cordY < 0) {
-            return (float) Math.toDegrees(Math.sin(cordY* -1) / raio);
+            return twoDicimal(Math.toDegrees(Math.sin(cordY * -1) / raio));
         } else {
-            return (float) Math.toDegrees(Math.sin(cordY / raio));
+            return twoDicimal(Math.toDegrees(Math.sin(cordY / raio)));
         }
     }
 
@@ -42,5 +50,10 @@ public class CordenadasRadar {
 
     public static int Y(int raio, int angulo){
         return (int) (Math.sin(Math.toRadians(angulo))*raio);
+    }
+
+    public static float twoDicimal(double valor) {
+        DecimalFormat df = new DecimalFormat("###.##");
+        return Float.parseFloat(df.format(valor).replace(',', '.'));
     }
 }

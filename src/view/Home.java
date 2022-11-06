@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class Home extends JFrame {
@@ -145,7 +146,6 @@ public class Home extends JFrame {
                         if((Boolean) airPlaneTableModel.getValueAt(i, 0)) {
                             Integer id = Integer.parseInt(airPlaneTableModel.getValueAt(i, 1).toString());
                             radar.remove(id);
-
                             airPlaneTableModel.removeAviao(i);
                         }
                     }
@@ -277,7 +277,8 @@ public class Home extends JFrame {
                     airPlane.setRaio(CordenadasRadar.calculaRaio(Integer.parseInt(tDadosXText.getText()),
                                                                         Integer.parseInt(tDadosYText.getText())));
 
-                    airPlane.setAngulo(CordenadasRadar.calculaAngulo(Integer.parseInt(tDadosYText.getText()),
+                    airPlane.setAngulo(CordenadasRadar.calculateAngle(Integer.parseInt(tDadosXText.getText()),
+                            Integer.parseInt(tDadosYText.getText()),
                             CordenadasRadar.calculaRaio(Integer.parseInt(tDadosXText.getText()),
                                     Integer.parseInt(tDadosYText.getText()))));
 
@@ -662,8 +663,9 @@ public class Home extends JFrame {
         bTempoMinEmRotaColisaoButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (String collisionRisk : FuncoesRastreamento.collisionRiskList(radar.getLista_avioes(),
-                        Float.parseFloat(tTempoMinEmRotaColisaoText.getText()))) {
+
+                for (String collisionRisk : Objects.requireNonNull(FuncoesRastreamento.collisionRiskList(radar.getLista_avioes(),
+                        Float.parseFloat(tTempoMinEmRotaColisaoText.getText())))) {
 
                     tRelatorio.setText(tRelatorio.getText() + collisionRisk + "\n");
                 }
@@ -693,6 +695,11 @@ public class Home extends JFrame {
         pRadarelatorio.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         getContentPane().add(pRadarelatorio);
+    }
+
+    private static float twoDicimal(double valor) {
+        DecimalFormat df = new DecimalFormat("###.##");
+        return Float.parseFloat(df.format(valor).replace(',', '.'));
     }
 
 }

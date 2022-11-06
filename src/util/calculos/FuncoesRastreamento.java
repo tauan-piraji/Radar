@@ -37,7 +37,7 @@ public class FuncoesRastreamento{
                                     airPlane1.getId() +
                                     " e " +
                                     airPlane2.getId() +
-                                    " recaulcular rota");
+                                    " recalcular rota");
                         }
                     }
                 }
@@ -66,43 +66,52 @@ public class FuncoesRastreamento{
                         !(aux.containsKey(b.getId() + "-" + a.getId()))){
                     aux.put(a.getId() + "-" + b.getId(), distancePlanes(a, b));
                     aux.put(b.getId() + "-" + a.getId(), distancePlanes(a, b));
-                    listaColisoes.add(collisionMSG(a, b, tempoMinimo));
+
+                    if ((collisionMSG(a, b, tempoMinimo)) != null) {
+                        listaColisoes.add(collisionMSG(a, b, tempoMinimo));
+                    }
                 }
             }
         }
-
-        return listaColisoes;
+        if (listaColisoes.size() > 0) {
+            return listaColisoes;
+        }
+        return null;
     }
 
     public static String collisionMSG(AirPlane airPlane1, AirPlane airPlane2, double tempoMinimo) {
-        String message = "";
+        String message = null;
+        HashMap<String, Float> intersectionPoint = intersection(airPlane1, airPlane2);
 
-        HashMap<String, Float> pontos = intersection(airPlane1, airPlane2);
+        if (intersectionPoint != null) {
+            float distanciaA1 = (calculateDistPoint(airPlane1, intersectionPoint.get("X"), intersectionPoint.get("Y")));
+            float distanciaA2 = (calculateDistPoint(airPlane2, intersectionPoint.get("X"), intersectionPoint.get("Y")));
 
-        float distanciaA1 = (calculateDistPoint(airPlane1, pontos.get("X"), pontos.get("Y")));
+            float tempoA1 = distanciaA1/airPlane1.getVelocidade();
+            float tempoA2 = distanciaA2/airPlane2.getVelocidade();
 
-        float distanciaA2 = (calculateDistPoint(airPlane2, pontos.get("X"), pontos.get("Y")));
+            float tempofinal;
+            if((tempoA1 - tempoA2) < 30) {
+                if(tempoA1 < tempoA2) {
+                    tempofinal = seconds(tempoA1);
+                } else {
+                    tempofinal = seconds(tempoA2);
+                }
+            } else {
+                return null;
+            }
 
-        float tempoA1 = distanciaA1/airPlane1.getVelocidade();
-        float tempoA2 = distanciaA2/airPlane2.getVelocidade();
-
-        float tempofinal = seconds(tempoA1 - tempoA2);
-
-        if (tempofinal <= tempoMinimo){
-            message = "ALERTA!!!: Colisão IMINENTE entre os aviões " +
-                    airPlane1.getId() +
-                    " e "+airPlane2.getId() +
-                    " em " +
-                    twoDicimal(tempofinal) +
-                    " segundos, favor alterar rota";
+            if (tempofinal <= tempoMinimo){
+                message = "ALERTA!!!: Colisão IMINENTE entre os aviões " +
+                        airPlane1.getId() +
+                        " e "+airPlane2.getId() +
+                        " em " +
+                        CordenadasRadar.twoDicimal(tempofinal) +
+                        " segundos, favor alterar rota";
+            }
         }
 
         return message;
-    }
-
-    private static float twoDicimal(double valor) {
-        DecimalFormat df = new DecimalFormat("###.##");
-        return Float.parseFloat(df.format(valor).replace(',', '.'));
     }
 
     public static HashMap<String, Float> intersection(AirPlane a1, AirPlane a2){
@@ -114,21 +123,12 @@ public class FuncoesRastreamento{
         float coefAngular2 = (float) Math.tan(Math.toRadians(a2.getDirecao()));
         float coefLinear2 = (coefAngular2 * a2.getCordX() - a2.getCordY()) * (-1);
 
-        if (!(a1.getAngulo() == a2.getAngulo()) && coefLinear1 != coefLinear2){
-            System.out.println("colisão impossivel");
-            pontos.put("IMPOSSIVEL", 0F);
-        }else{
-            if (a1.getAngulo() == a2.getAngulo() && coefLinear1==coefLinear2){
-                pontos.put("TODOS", 0F);
-            }else{
-                float X = (coefLinear2 * -1) - (coefLinear1 * -1)/ (coefAngular2 - coefAngular1);
+        if (!(a1.getDirecao() == a2.getCordX() && coefLinear1 != coefLinear2)){
+            float X = ((coefLinear2 * -1) - (coefLinear1 * -1))/ (coefAngular2 - coefAngular1);
 
-                pontos.put("X", (float) X);
-                pontos.put("Y", (float) (coefAngular1 * X + coefLinear1));
-
-            }
+            pontos.put("X", (float) X);
+            pontos.put("Y", (float) (coefAngular1 * X + coefLinear1));
         }
-
 
         return pontos;
     }
